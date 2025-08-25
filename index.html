@@ -427,31 +427,33 @@
 </head>
 <body>
     <div class="container">
+        <!-- HEADER MEJORADO -->
         <header class="header">
-            <div style="display: flex; align-items: center; justify-content: center; gap: 2rem; margin-bottom: 1rem;">
-                <!-- Logo CGR oficial -->
-                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQwIiBoZWlnaHQ9IjI0MCIgdmlld0JveD0iMCAwIDI0MCAyNDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjQwIiBmaWxsPSJ3aGl0ZSIvPgo8IS0tIExvZ28gQ0dSIG9maWNpYWwgLS0+CjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEyMCwxMjApIj4KICA8IS0tIEVzdGlsaXphY2nDs24gZGVsIG9qbyBkZSBsYSBDR1IgLS0+CiAgPHBhdGggZD0iTTAgMCBtIC0xMDAsLTEwIGwgNzAsLTEwIGwgNjAsMCBsIDcwLDEwIGwgNzAsNDAgbCAtNzAsNTAgbCAtNjAsMTAgbCAtNjAsMCBsIC03MCwtMTAgeiIgZmlsbD0iIzM5NEE5QSIvPgogIDwhLS0gSXJpcyBjb24gN24gc2VtaWPDrXJjdWxvcyAocmVwcmVzZW50YW5kbyBsYXMgNyBwcm92aW5jaWFzKSAtLT4KICA8Y2lyY2xlIGN4PSIwIiBjeT0iMCIgcj0iNDAiIGZpbGw9IiMzOTRBOUEiIG9wYWNpdHk9IjAuMSIvPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIzNSIgZmlsbD0iIzM5NEE5QSIgb3BhY2l0eT0iMC4yIi8+CiAgPGNpcmNsZSBjeD0iLTE1IiBjeT0iLTE1IiByPSIxNSIgZmlsbD0iIzM5NEE5QSIgb3BhY2l0eT0iMC4zIi8+CiAgPGNpcmNsZSBjeD0iMTUiIGN5PSItMTUiIHI9IjEyIiBmaWxsPSIjMzk0QTlBIiBvcGFjaXR5PSIwLjQiLz4KICA8Y2lyY2xlIGN4PSIxOCIgY3k9IjEyIiByPSIxMCIgZmlsbD0iIzM5NEE5QSIgb3BhY2l0eT0iMC41Ii8+CiAgPGNpcmNsZSBjeD0iLTE4IiBjeT0iMTIiIHI9IjExIiBmaWxsPSIjMzk0QTlBIiBvcGFjaXR5PSIwLjYiLz4KICA8Y2lyY2xlIGN4PSIwIiBjeT0iMCIgcj0iOCIgZmlsbD0iIzM5NEE5QSIvPgogIDwhLS0gUHVwaWxhIGNlbnRyYWwgLS0+CiAgPGNpcmNsZSBjeD0iMCIgY3k9IjAiIHI9IjQiIGZpbGw9IndoaXRlIi8+CjwvZz4KCjwhLS0gVGV4dG8gQ0dSIC0tPgo8dGV4dCB4PSIxMjAiIHk9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkNlbnR1cnkgR290aGljLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSI0OCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiMzOTRBOUEiPkNHUjwvdGV4dD4KPC9zdmc+" 
-                     alt="CGR - Contraloría General de la República" 
-                     style="width: 120px; height: 120px; flex-shrink: 0;" />
-                
-                <div style="text-align: left;">
-                    <h1 style="margin: 0;">🔬 Laboratorio de Riesgos</h1>
-                    <p style="margin: 0; font-size: 1.2rem; color: var(--primary-color); font-weight: 600;">
-                        Contraloría General de la República
-                    </p>
-                    <p style="margin: 0.5rem 0 0 0;">Transformación Digital en Gestión de Riesgos</p>
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="cgr-logo">CGR</div>
+                    <div class="header-info">
+                        <h1>🔬 Laboratorio de Riesgos</h1>
+                        <p>Contraloría General de la República</p>
+                    </div>
                 </div>
+                <div class="version-badge">Versión 2.3</div>
             </div>
-            
-            <!-- Línea decorativa en colores CGR -->
-            <div style="height: 4px; background: linear-gradient(90deg, var(--primary-color) 0%, var(--accent-color) 50%, var(--success-color) 100%); margin-top: 1rem; border-radius: 2px;"></div>
         </header>
 
         <nav class="main-nav">
-            <button class="nav-button active" onclick="showModule('inicio')">🏠 Inicio</button>
-            <button class="nav-button" onclick="showModule('modulo1')">📚 Guía Interactiva</button>
-            <button class="nav-button" onclick="showModule('modulo2')">🌡️ Mapa de Calor</button>
-            <button class="nav-button" onclick="showModule('modulo3')">🔨 Constructor de Riesgos</button>
+            <button class="nav-button active" onclick="showModule('inicio')" data-module="inicio">
+                🏠 Dashboard Principal
+            </button>
+            <button class="nav-button" onclick="showModule('modulo1')" data-module="modulo1">
+                📚 Guía Interactiva
+            </button>
+            <button class="nav-button" onclick="showModule('modulo2')" data-module="modulo2">
+                🌡️ Análisis de Riesgos
+            </button>
+            <button class="nav-button" onclick="showModule('modulo3')" data-module="modulo3">
+                🔨 Constructor IA
+            </button>
         </nav>
 
         <!-- Sección de Inicio -->
@@ -1237,6 +1239,37 @@
             URL.revokeObjectURL(url);
 
             alert(`✅ Reporte ${type.toUpperCase()} generado exitosamente!\n\nArchivo descargado: Reporte_${type}_${Date.now()}.txt`);
+        }
+
+                // Módulo 1: Funcionalidad de conceptos interactivos
+        function toggleConcept(conceptId) {
+            const detail = document.getElementById(conceptId);
+            const isActive = detail.classList.contains('active');
+            
+            // Cerrar todos los conceptos abiertos
+            document.querySelectorAll('.concept-detail').forEach(concept => {
+                concept.classList.remove('active');
+            });
+            
+            // Abrir el concepto clickeado si no estaba activo
+            if (!isActive) {
+                detail.classList.add('active');
+            }
+        }
+
+        // Módulo 2: Funciones del mapa de calor
+        function filterRisks() {
+            const divisionFilter = document.getElementById('divisionFilter').value;
+            const typeFilter = document.getElementById('riskTypeFilter').value;
+            const levelFilter = document.getElementById('riskLevelFilter').value;
+            
+            filteredRisks = riskData.filter(risk => {
+                return (!divisionFilter || risk.division === divisionFilter) &&
+                       (!typeFilter || risk.tipo === typeFilter) &&
+                       (!levelFilter || risk.nivel === levelFilter);
+            });
+            
+            renderHeatMap();
         }
 
         // FUNCIONES AUXILIARES PARA REPORTES
@@ -2332,36 +2365,6 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- HEADER MEJORADO -->
-        <header class="header">
-            <div class="header-content">
-                <div class="logo-section">
-                    <div class="cgr-logo">CGR</div>
-                    <div class="header-info">
-                        <h1>🔬 Laboratorio de Riesgos</h1>
-                        <p>Contraloría General de la República</p>
-                    </div>
-                </div>
-                <div class="version-badge">Versión 2.3</div>
-            </div>
-        </header>
-
-        <!-- NAVEGACIÓN MEJORADA -->
-        <nav class="main-nav">
-            <button class="nav-button active" onclick="showModule('inicio')" data-module="inicio">
-                🏠 Dashboard Principal
-            </button>
-            <button class="nav-button" onclick="showModule('modulo1')" data-module="modulo1">
-                📚 Guía Interactiva
-            </button>
-            <button class="nav-button" onclick="showModule('modulo2')" data-module="modulo2">
-                🌡️ Análisis de Riesgos
-            </button>
-            <button class="nav-button" onclick="showModule('modulo3')" data-module="modulo3">
-                🔨 Constructor IA
-            </button>
-        </nav>
 
         <!-- MÓDULO PRINCIPAL: DASHBOARD -->
         <div id="inicio" class="module active">
