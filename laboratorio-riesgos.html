@@ -1,0 +1,2464 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio de Riesgos - CGR</title>
+    <style>
+        :root {
+            --primary-color: #394A9A; /* Pantone Reflex Blue U RGB */
+            --secondary-color: #25336C; /* Pantone Reflex Blue C RGB */
+            --accent-color: #EA7305; /* Pantone 152 C RGB - Color secundario CGR */
+            --success-color: #28a9e0; /* Pantone 306 U - Paleta complementaria */
+            --warning-color: #f8ae40; /* Pantone 116 U - Paleta complementaria */
+            --danger-color: #ef4444;
+            --light-gray: #f8fafc;
+            --medium-gray: #64748b;
+            --dark-gray: #1e293b;
+            --cgr-gray: #dbdbdb; /* Pantone Cool Gray 1U - Paleta complementaria */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif; /* Tipografía complementaria CGR */
+            line-height: 1.6;
+            color: var(--dark-gray);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-family: 'Century Gothic', 'Arial', sans-serif; /* Tipografía corporativa CGR */
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-family: 'Century Gothic', 'Arial', sans-serif;
+            font-size: 1.1rem;
+            color: var(--medium-gray);
+        }
+
+        .main-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-button {
+            background: white;
+            border: none;
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            font-family: 'Century Gothic', 'Arial', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            min-width: 200px;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .nav-button.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .module {
+            display: none;
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .module.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .module h2 {
+            color: var(--primary-color);
+            font-family: 'Century Gothic', 'Arial', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .module-icon {
+            font-size: 2rem;
+        }
+
+        /* Módulo 1 - Guía Interactiva */
+        .glossary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .concept-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.1);
+        }
+
+        .concept-card h3 {
+            color: var(--primary-color);
+            font-family: 'Century Gothic', 'Arial', sans-serif;
+            margin-bottom: 0.5rem;
+        }
+
+        .concept-detail {
+            display: none;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+            color: var(--medium-gray);
+        }
+
+        .concept-detail.active {
+            display: block;
+        }
+
+        /* Módulo 2 - Mapa de Calor */
+        .heat-map-container {
+            display: grid;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .controls-panel {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .control-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-family: 'Century Gothic', 'Arial', sans-serif;
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .control-group select, .control-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .heat-map {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .risk-item {
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .risk-item.alto {
+            border-left-color: var(--accent-color); /* Color secundario CGR para alto riesgo */
+            background: #fef2f2;
+        }
+
+        .risk-item.medio {
+            border-left-color: var(--warning-color);
+            background: #fffbeb;
+        }
+
+        .risk-item.bajo {
+            border-left-color: var(--success-color);
+            background: #f0fdf4;
+        }
+
+        .risk-level {
+            font-weight: 700;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .risk-level.alto { color: var(--accent-color); }
+        .risk-level.medio { color: var(--warning-color); }
+        .risk-level.bajo { color: var(--success-color); }
+
+        /* Módulo 3 - Constructor */
+        .constructor-form {
+            display: grid;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .form-group {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-family: 'Century Gothic', 'Arial', sans-serif;
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .generate-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .generate-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-1px);
+        }
+
+        .generated-content {
+            display: none;
+            margin-top: 2rem;
+            padding: 2rem;
+            background: var(--light-gray);
+            border-radius: 12px;
+            border: 2px dashed var(--primary-color);
+        }
+
+        .generated-content.active {
+            display: block;
+        }
+
+        .ai-suggestion {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .ai-suggestion h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .download-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .download-btn {
+            background: var(--success-color);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-family: 'Century Gothic', 'Arial', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0 0.5rem;
+        }
+
+        .intro-section {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .intro-section h2 {
+            color: var(--primary-color);
+            font-family: 'Century Gothic', 'Arial', sans-serif;
+            margin-bottom: 1rem;
+        }
+
+        .intro-section p {
+            color: var(--medium-gray);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Estilos adicionales para cumplir con el libro de marca CGR */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Century Gothic', 'Arial', sans-serif;
+        }
+        
+        /* Logo CGR en footer */
+        .footer-logo {
+            margin-top: 2rem;
+            text-align: center;
+            padding: 2rem;
+            border-top: 2px solid var(--cgr-gray);
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .footer-logo p {
+            font-family: 'Century Gothic', 'Arial', sans-serif;
+            color: white;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+        
+        /* Aplicar paleta de colores CGR */
+        .ai-suggestion h4 {
+            color: var(--primary-color);
+            font-family: 'Century Gothic', 'Arial', sans-serif;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .main-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-button {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 2rem; margin-bottom: 1rem;">
+                <!-- Logo CGR oficial -->
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQwIiBoZWlnaHQ9IjI0MCIgdmlld0JveD0iMCAwIDI0MCAyNDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjQwIiBmaWxsPSJ3aGl0ZSIvPgo8IS0tIExvZ28gQ0dSIG9maWNpYWwgLS0+CjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEyMCwxMjApIj4KICA8IS0tIEVzdGlsaXphY2nDs24gZGVsIG9qbyBkZSBsYSBDR1IgLS0+CiAgPHBhdGggZD0iTTAgMCBtIC0xMDAsLTEwIGwgNzAsLTEwIGwgNjAsMCBsIDcwLDEwIGwgNzAsNDAgbCAtNzAsNTAgbCAtNjAsMTAgbCAtNjAsMCBsIC03MCwtMTAgeiIgZmlsbD0iIzM5NEE5QSIvPgogIDwhLS0gSXJpcyBjb24gN24gc2VtaWPDrXJjdWxvcyAocmVwcmVzZW50YW5kbyBsYXMgNyBwcm92aW5jaWFzKSAtLT4KICA8Y2lyY2xlIGN4PSIwIiBjeT0iMCIgcj0iNDAiIGZpbGw9IiMzOTRBOUEiIG9wYWNpdHk9IjAuMSIvPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIzNSIgZmlsbD0iIzM5NEE5QSIgb3BhY2l0eT0iMC4yIi8+CiAgPGNpcmNsZSBjeD0iLTE1IiBjeT0iLTE1IiByPSIxNSIgZmlsbD0iIzM5NEE5QSIgb3BhY2l0eT0iMC4zIi8+CiAgPGNpcmNsZSBjeD0iMTUiIGN5PSItMTUiIHI9IjEyIiBmaWxsPSIjMzk0QTlBIiBvcGFjaXR5PSIwLjQiLz4KICA8Y2lyY2xlIGN4PSIxOCIgY3k9IjEyIiByPSIxMCIgZmlsbD0iIzM5NEE5QSIgb3BhY2l0eT0iMC41Ii8+CiAgPGNpcmNsZSBjeD0iLTE4IiBjeT0iMTIiIHI9IjExIiBmaWxsPSIjMzk0QTlBIiBvcGFjaXR5PSIwLjYiLz4KICA8Y2lyY2xlIGN4PSIwIiBjeT0iMCIgcj0iOCIgZmlsbD0iIzM5NEE5QSIvPgogIDwhLS0gUHVwaWxhIGNlbnRyYWwgLS0+CiAgPGNpcmNsZSBjeD0iMCIgY3k9IjAiIHI9IjQiIGZpbGw9IndoaXRlIi8+CjwvZz4KCjwhLS0gVGV4dG8gQ0dSIC0tPgo8dGV4dCB4PSIxMjAiIHk9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkNlbnR1cnkgR290aGljLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSI0OCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiMzOTRBOUEiPkNHUjwvdGV4dD4KPC9zdmc+" 
+                     alt="CGR - Contraloría General de la República" 
+                     style="width: 120px; height: 120px; flex-shrink: 0;" />
+                
+                <div style="text-align: left;">
+                    <h1 style="margin: 0;">🔬 Laboratorio de Riesgos</h1>
+                    <p style="margin: 0; font-size: 1.2rem; color: var(--primary-color); font-weight: 600;">
+                        Contraloría General de la República
+                    </p>
+                    <p style="margin: 0.5rem 0 0 0;">Transformación Digital en Gestión de Riesgos</p>
+                </div>
+            </div>
+            
+            <!-- Línea decorativa en colores CGR -->
+            <div style="height: 4px; background: linear-gradient(90deg, var(--primary-color) 0%, var(--accent-color) 50%, var(--success-color) 100%); margin-top: 1rem; border-radius: 2px;"></div>
+        </header>
+
+        <nav class="main-nav">
+            <button class="nav-button active" onclick="showModule('inicio')">🏠 Inicio</button>
+            <button class="nav-button" onclick="showModule('modulo1')">📚 Guía Interactiva</button>
+            <button class="nav-button" onclick="showModule('modulo2')">🌡️ Mapa de Calor</button>
+            <button class="nav-button" onclick="showModule('modulo3')">🔨 Constructor de Riesgos</button>
+        </nav>
+
+        <!-- Sección de Inicio -->
+        <div id="inicio" class="module active">
+            <div class="intro-section">
+                <h2>¿Qué es el Laboratorio de Riesgos?</h2>
+                <p>Una plataforma integral que centraliza, analiza y optimiza la gestión de riesgos institucionales mediante inteligencia artificial y herramientas interactivas, transformando datos en conocimiento accionable.</p>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon" style="color: var(--primary-color);">📚</div>
+                        <h3 style="color: var(--primary-color); font-family: 'Century Gothic', 'Arial', sans-serif;">Guía Interactiva</h3>
+                        <p>Nivelación de conocimientos sobre conceptos clave de gestión de riesgos y MOSEVRI</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon" style="color: var(--accent-color);">🌡️</div>
+                        <h3 style="color: var(--primary-color); font-family: 'Century Gothic', 'Arial', sans-serif;">Mapa de Calor</h3>
+                        <p>Visualización avanzada de riesgos críticos con matrices interactivas y reportes dinámicos</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon" style="color: var(--success-color);">🔨</div>
+                        <h3 style="color: var(--primary-color); font-family: 'Century Gothic', 'Arial', sans-serif;">Constructor de Riesgos</h3>
+                        <p>Automatización inteligente para el llenado del Anexo 2 de MOSEVRI con IA predictiva</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Módulo 1: Guía Interactiva de Riesgos -->
+        <div id="modulo1" class="module">
+            <h2><span class="module-icon">📚</span>Guía Interactiva de Riesgos</h2>
+            <p>Espacio de consulta para brindar información clara y estructurada sobre conceptos y características de la gestión de riesgos.</p>
+            
+            <div class="glossary-grid">
+                <div class="concept-card" onclick="toggleConcept('riesgo')">
+                    <h3>¿Qué es Riesgo? 🎯</h3>
+                    <p>Conceptos fundamentales sobre riesgos</p>
+                    <div id="riesgo" class="concept-detail">
+                        <strong>Definición:</strong> Probabilidad de que ocurran eventos que tendrían consecuencias sobre el cumplimiento de los objetivos fijados.
+                        <br><br>
+                        <strong>Tipos de riesgo:</strong>
+                        <ul>
+                            <li><strong>Riesgo Inherente:</strong> Nivel de riesgo antes de controles</li>
+                            <li><strong>Riesgo Residual:</strong> Nivel de riesgo después de controles</li>
+                            <li><strong>Riesgo Aceptable:</strong> Nivel al que la entidad está dispuesta a exponerse</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="concept-card" onclick="toggleConcept('mosevri')">
+                    <h3>MOSEVRI 📋</h3>
+                    <p>Marco Orientador del Sistema Específico de Valoración del Riesgo</p>
+                    <div id="mosevri" class="concept-detail">
+                        <strong>Ámbitos de aplicación:</strong>
+                        <ul>
+                            <li><strong>Estratégicos:</strong> Plan Estratégico Institucional (PEI)</li>
+                            <li><strong>Tácticos:</strong> Proyectos de mejora continua</li>
+                            <li><strong>Operativos:</strong> Procedimientos específicos</li>
+                        </ul>
+                        <br>
+                        <strong>Tipos de riesgo según objetivos del SCII:</strong>
+                        <ul>
+                            <li>Patrimoniales</li>
+                            <li>De cumplimiento</li>
+                            <li>Operacionales</li>
+                            <li>De información</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="concept-card" onclick="toggleConcept('especiales')">
+                    <h3>Riesgos Especiales 🔒</h3>
+                    <p>Riesgos complementarios al MOSEVRI</p>
+                    <div id="especiales" class="concept-detail">
+                        <strong>Incluye:</strong>
+                        <ul>
+                            <li><strong>Continuidad del Negocio:</strong> Riesgos que afectan la operación continua</li>
+                            <li><strong>Ciberseguridad:</strong> Amenazas digitales y de información</li>
+                            <li><strong>Salud Ocupacional:</strong> Riesgos laborales y de bienestar</li>
+                            <li><strong>Riesgos de IA:</strong> Asociados al uso de inteligencia artificial</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="concept-card" onclick="toggleConcept('proceso')">
+                    <h3>Proceso de Gestión 🔄</h3>
+                    <p>Causa - Evento - Consecuencia</p>
+                    <div id="proceso" class="concept-detail">
+                        <strong>Causa:</strong> Situaciones internas o externas que podrían originar un evento.
+                        <br><br>
+                        <strong>Evento:</strong> Incidente con impacto potencial (amenaza u oportunidad).
+                        <br><br>
+                        <strong>Consecuencia:</strong> Efectos derivados de la ocurrencia del evento.
+                        <br><br>
+                        <strong>Valoración:</strong>
+                        <ul>
+                            <li>Probabilidad: Alta=3, Media=2, Baja=1</li>
+                            <li>Magnitud: Alta=3, Media=2, Baja=1</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="concept-card" onclick="toggleConcept('etico')">
+                    <h3>Riesgo Ético ⚖️</h3>
+                    <p>Probabilidad de acontecimientos contrarios a la ética</p>
+                    <div id="etico" class="concept-detail">
+                        <strong>Definición:</strong> Probabilidad de que ocurran acontecimientos contrarios a la ética que afecten negativamente a la organización en el cumplimiento de objetivos y evidencien falta de probidad del personal.
+                        <br><br>
+                        <strong>Ejemplos por tipo:</strong>
+                        <ul>
+                            <li><strong>Patrimoniales:</strong> Conflicto de interés, desvío de recursos, hurto</li>
+                            <li><strong>Cumplimiento:</strong> Fraude de ley, aceptación de sobornos</li>
+                            <li><strong>Operacionales:</strong> Simulación de resultados</li>
+                            <li><strong>Información:</strong> Uso indebido de información, acceso no autorizado</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="concept-card" onclick="toggleConcept('controles')">
+                    <h3>Controles y Medidas 🛡️</h3>
+                    <p>Medidas de administración del riesgo</p>
+                    <div id="controles" class="concept-detail">
+                        <strong>Componentes del Sistema de Control Interno:</strong>
+                        <ul>
+                            <li><strong>Ambiente de Control:</strong> Cultura organizacional</li>
+                            <li><strong>Valoración del Riesgo:</strong> Identificación y análisis</li>
+                            <li><strong>Actividades de Control:</strong> Políticas y procedimientos</li>
+                            <li><strong>Sistemas de Información:</strong> Comunicación efectiva</li>
+                            <li><strong>Seguimiento:</strong> Monitoreo continuo</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MÓDULO 2: ANÁLISIS DE RIESGOS AVANZADO -->
+        <div id="modulo2" class="module">
+            <div class="module-header">
+                <h2><span class="module-icon">🌡️</span>Análisis Avanzado de Riesgos</h2>
+                <p>Visualización interactiva y análisis detallado de la matriz de riesgos institucional</p>
+            </div>
+
+            <!-- ESTADÍSTICAS DEL MÓDULO -->
+            <div class="stats-grid">
+                <div class="stat-card total">
+                    <div class="stat-number" id="totalRisks">0</div>
+                    <div class="stat-label">Riesgos Filtrados</div>
+                </div>
+                <div class="stat-card alto">
+                    <div class="stat-number alto" id="highRisks">0</div>
+                    <div class="stat-label">Críticos</div>
+                </div>
+                <div class="stat-card medio">
+                    <div class="stat-number" id="mediumRisks">0</div>
+                    <div class="stat-label">Moderados</div>
+                </div>
+                <div class="stat-card bajo">
+                    <div class="stat-number" id="lowRisks">0</div>
+                    <div class="stat-label">Controlados</div>
+                </div>
+            </div>
+
+            <!-- GRÁFICO DE ANÁLISIS -->
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h3 class="chart-title">📈 Análisis de Distribución</h3>
+                </div>
+                <div class="chart-container">
+                    <canvas id="analysisChart" width="300" height="300" class="chart-canvas"></canvas>
+                </div>
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: var(--gradient-accent);"></div>
+                        <span class="legend-text">Riesgos Altos</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: var(--warning-color);"></div>
+                        <span class="legend-text">Riesgos Medios</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: var(--success-color);"></div>
+                        <span class="legend-text">Riesgos Bajos</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SISTEMA DE FILTROS AVANZADO -->
+            <div class="filters-section">
+                <div class="filters-header">
+                    <h3 class="filters-title">🔍 Filtros de Análisis</h3>
+                    <button class="clear-all-btn" onclick="clearAllFilters()">Limpiar Todo</button>
+                </div>
+                
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label class="filter-label">🏢 División CGR</label>
+                        <select class="filter-input" id="divisionFilter" onchange="applyFilters()">
+                            <option value="">Todas las divisiones</option>
+                            <option value="dfoe">División de Fiscalización Operativa</option>
+                            <option value="dcp">División de Contratación Pública</option>
+                            <option value="dga">División de Gestión de Apoyo</option>
+                            <option value="dj">División Jurídica</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">🎯 Tipo de Riesgo</label>
+                        <select class="filter-input" id="typeFilter" onchange="applyFilters()">
+                            <option value="">Todos los tipos</option>
+                            <option value="patrimoniales">Patrimoniales</option>
+                            <option value="cumplimiento">Cumplimiento</option>
+                            <option value="operacionales">Operacionales</option>
+                            <option value="informacion">Información</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">⚠️ Nivel de Criticidad</label>
+                        <select class="filter-input" id="levelFilter" onchange="applyFilters()">
+                            <option value="">Todos los niveles</option>
+                            <option value="alto">Alto</option>
+                            <option value="medio">Medio</option>
+                            <option value="bajo">Bajo</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label class="filter-label">🔍 Búsqueda Textual</label>
+                        <input type="text" class="filter-input" id="searchFilter" 
+                               placeholder="Buscar en eventos, causas, consecuencias..." 
+                               onkeyup="applyFilters()">
+                    </div>
+                </div>
+
+                <div class="active-filters" id="activeFilters"></div>
+            </div>
+
+            <!-- CONTROLES DE VISTA -->
+            <div class="heatmap-section">
+                <div class="heatmap-header">
+                    <h3 class="heatmap-title">🗺️ Mapa de Calor de Riesgos</h3>
+                    <div class="view-controls">
+                        <button class="view-btn active" onclick="setView('grid')" data-view="grid">📱 Tarjetas</button>
+                        <button class="view-btn" onclick="setView('table')" data-view="table">📋 Tabla</button>
+                    </div>
+                </div>
+
+                <!-- MAPA DE CALOR DINÁMICO -->
+                <div class="risk-grid" id="riskGrid"></div>
+            </div>
+
+            <!-- GENERACIÓN DE REPORTES -->
+            <div class="reports-section">
+                <h3 class="reports-title">📊 Generación de Reportes</h3>
+                <div class="reports-grid">
+                    <button class="report-btn" onclick="generateAdvancedReport('executive')">
+                        📄 Reporte Ejecutivo
+                    </button>
+                    <button class="report-btn" onclick="generateAdvancedReport('detailed')">
+                        📋 Análisis Detallado
+                    </button>
+                    <button class="report-btn accent" onclick="generateAdvancedReport('trends')">
+                        📈 Tendencias
+                    </button>
+                    <button class="report-btn" onclick="generateAdvancedReport('matrix')">
+                        🗂️ Matriz Completa
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MÓDULO 3: CONSTRUCTOR CON IA -->
+        <div id="modulo3" class="module">
+            <div class="module-header">
+                <h2><span class="module-icon">🔨</span>Constructor de Riesgos con IA</h2>
+                <p>Generación automática de análisis de riesgos utilizando inteligencia artificial</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <!-- FORMULARIO DE ENTRADA -->
+                <div style="background: white; padding: 2rem; border-radius: 16px; box-shadow: var(--shadow-light);">
+                    <h3 style="color: var(--primary-color); margin-bottom: 1.5rem;">📝 Datos de Entrada</h3>
+                    
+                    <form id="riskConstructorForm" onsubmit="generateRiskAnalysis(event)">
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Evento Probable *</label>
+                            <textarea id="eventoProblable" required
+                                style="width: 100%; min-height: 100px; padding: 0.75rem; border: 2px solid var(--cgr-gray); border-radius: 8px; resize: vertical;"
+                                placeholder="Describa el evento de riesgo que podría ocurrir..."></textarea>
+                        </div>
+                        
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Procedimiento *</label>
+                            <select id="tipoProcedimiento" required 
+                                style="width: 100%; padding: 0.75rem; border: 2px solid var(--cgr-gray); border-radius: 8px;">
+                                <option value="">Seleccione un procedimiento</option>
+                                <option value="financiero">Gestión Financiero-Contable</option>
+                                <option value="denuncias">Atención de Denuncias</option>
+                                <option value="auditoria">Auditoría</option>
+                                <option value="contratacion">Contratación Pública</option>
+                                <option value="juridica">Asesoría Jurídica</option>
+                                <option value="rrhh">Recursos Humanos</option>
+                                <option value="ti">Tecnologías de Información</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="report-btn" style="width: 100%;">
+                            🤖 Generar Análisis con IA
+                        </button>
+                    </form>
+                </div>
+
+                <!-- RESULTADOS DE IA -->
+                <div style="background: white; padding: 2rem; border-radius: 16px; box-shadow: var(--shadow-light);">
+                    <h3 style="color: var(--primary-color); margin-bottom: 1.5rem;">🧠 Análisis Generado por IA</h3>
+                    <div id="aiResults" style="color: var(--medium-gray); text-align: center; padding: 2rem;">
+                        Ingrese los datos y presione "Generar Análisis" para ver los resultados de la IA
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DATOS DE MUESTRA EXTENDIDOS
+        const riskDatabase = [
+            {
+                id: 1,
+                evento: "Fallas críticas en sistema de información financiera",
+                division: "dga", tipo: "informacion", nivel: "alto",
+                probabilidad: 3, magnitud: 3,
+                causa: "Obsolescencia tecnológica y falta de mantenimiento",
+                consecuencia: "Errores en reportes financieros y pérdida de confianza",
+                procedimiento: "Gestión financiero-contable"
+            },
+            {
+                id: 2,
+                evento: "Retrasos significativos en atención de denuncias",
+                division: "dfoe", tipo: "operacionales", nivel: "medio",
+                probabilidad: 2, magnitud: 3,
+                causa: "Sobrecarga de trabajo y recursos limitados",
+                consecuencia: "Pérdida de confianza ciudadana e imagen institucional",
+                procedimiento: "Atención de denuncias"
+            },
+            {
+                id: 3,
+                evento: "Conflicto de interés en procesos de contratación",
+                division: "dcp", tipo: "patrimoniales", nivel: "alto",
+                probabilidad: 2, magnitud: 3,
+                causa: "Controles preventivos insuficientes",
+                consecuencia: "Daño reputacional y pérdidas económicas",
+                procedimiento: "Contratación pública"
+            },
+            {
+                id: 4,
+                evento: "Pérdida de documentos legales críticos",
+                division: "dj", tipo: "cumplimiento", nivel: "medio",
+                probabilidad: 2, magnitud: 2,
+                causa: "Sistema de archivo físico deficiente",
+                consecuencia: "Retrasos en procesos legales",
+                procedimiento: "Asesoría jurídica"
+            },
+            {
+                id: 5,
+                evento: "Filtración de información confidencial",
+                division: "dfoe", tipo: "informacion", nivel: "alto",
+                probabilidad: 2, magnitud: 3,
+                causa: "Accesos no autorizados y controles débiles",
+                consecuencia: "Comprometimiento de investigaciones",
+                procedimiento: "Auditoría"
+            },
+            {
+                id: 6,
+                evento: "Errores en cálculo de remuneraciones",
+                division: "dga", tipo: "patrimoniales", nivel: "bajo",
+                probabilidad: 1, magnitud: 2,
+                causa: "Error humano en procesamiento",
+                consecuencia: "Pagos incorrectos y reclamos",
+                procedimiento: "Pago de planillas"
+            },
+            {
+                id: 7,
+                evento: "Incumplimiento normativa ambiental",
+                division: "dga", tipo: "cumplimiento", nivel: "medio",
+                probabilidad: 2, magnitud: 2,
+                causa: "Desconocimiento de nuevas regulaciones",
+                consecuencia: "Sanciones y multas administrativas",
+                procedimiento: "Gestión ambiental"
+            },
+            {
+                id: 8,
+                evento: "Fraude en licitación pública",
+                division: "dcp", tipo: "patrimoniales", nivel: "alto",
+                probabilidad: 1, magnitud: 3,
+                causa: "Controles internos débiles",
+                consecuencia: "Pérdidas económicas y daño reputacional",
+                procedimiento: "Licitación pública"
+            },
+            {
+                id: 9,
+                evento: "Ciberataque a infraestructura crítica",
+                division: "dga", tipo: "informacion", nivel: "alto",
+                probabilidad: 2, magnitud: 3,
+                causa: "Vulnerabilidades de seguridad no parcheadas",
+                consecuencia: "Interrupción de servicios críticos",
+                procedimiento: "Gestión de TI"
+            },
+            {
+                id: 10,
+                evento: "Rotación alta de personal especializado",
+                division: "dga", tipo: "operacionales", nivel: "medio",
+                probabilidad: 3, magnitud: 2,
+                causa: "Condiciones laborales no competitivas",
+                consecuencia: "Pérdida de conocimiento institucional",
+                procedimiento: "Gestión de RRHH"
+            }
+        ];
+
+        let filteredRisks = [...riskDatabase];
+        let currentView = 'grid';
+        let activeFilters = {};
+
+        // FUNCIONES DE NAVEGACIÓN
+        function showModule(moduleId) {
+            // Actualizar navegación
+            document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+            document.querySelectorAll('.nav-button').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(moduleId).classList.add('active');
+            document.querySelector(`[data-module="${moduleId}"]`).classList.add('active');
+
+            // Inicializar datos específicos del módulo
+            if (moduleId === 'inicio') {
+                updateDashboardStats();
+                updateDashboardChart();
+            } else if (moduleId === 'modulo2') {
+                setTimeout(() => {
+                    updateModuleStats();
+                    updateAnalysisChart();
+                    renderRiskGrid();
+                }, 100);
+            }
+        }
+
+        // FUNCIONES DE ESTADÍSTICAS ANIMADAS
+        function animateCounter(elementId, targetValue, suffix = '') {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            const startValue = parseInt(element.textContent) || 0;
+            const duration = 1500;
+            const steps = 60;
+            const increment = (targetValue - startValue) / steps;
+            
+            let current = startValue;
+            const timer = setInterval(() => {
+                current += increment;
+                if ((increment > 0 && current >= targetValue) || 
+                    (increment < 0 && current <= targetValue)) {
+                    current = targetValue;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.round(current) + suffix;
+            }, duration / steps);
+        }
+
+        function updateDashboardStats() {
+            const total = riskDatabase.length;
+            const high = riskDatabase.filter(r => r.nivel === 'alto').length;
+            const medium = riskDatabase.filter(r => r.nivel === 'medio').length;
+            const low = riskDatabase.filter(r => r.nivel === 'bajo').length;
+            
+            animateCounter('dashTotalRisks', total);
+            animateCounter('dashHighRisks', high);
+            animateCounter('dashMediumRisks', medium);
+            animateCounter('dashLowRisks', low);
+            
+            const avgScore = riskDatabase.reduce((sum, r) => sum + (r.probabilidad * r.magnitud), 0) / total;
+            animateCounter('dashRiskScore', avgScore.toFixed(1));
+        }
+
+        function updateModuleStats() {
+            const total = filteredRisks.length;
+            const high = filteredRisks.filter(r => r.nivel === 'alto').length;
+            const medium = filteredRisks.filter(r => r.nivel === 'medio').length;
+            const low = filteredRisks.filter(r => r.nivel === 'bajo').length;
+            
+            animateCounter('totalRisks', total);
+            animateCounter('highRisks', high);
+            animateCounter('mediumRisks', medium);
+            animateCounter('lowRisks', low);
+        }
+
+        // FUNCIONES DE GRÁFICOS INTERACTIVOS
+        function drawDonutChart(canvasId, high, medium, low) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const outerRadius = 120;
+            const innerRadius = 70;
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const total = high + medium + low;
+            if (total === 0) {
+                ctx.fillStyle = '#64748b';
+                ctx.font = '16px Century Gothic';
+                ctx.textAlign = 'center';
+                ctx.fillText('Sin datos', centerX, centerY);
+                return;
+            }
+
+            const colors = ['#EA7305', '#f8ae40', '#28a9e0'];
+            const values = [high, medium, low];
+            const labels = ['Críticos', 'Moderados', 'Controlados'];
+            
+            let currentAngle = -Math.PI / 2;
+            
+            values.forEach((value, index) => {
+                if (value > 0) {
+                    const sliceAngle = (value / total) * 2 * Math.PI;
+                    
+                    // Dibujar segmento
+                    ctx.beginPath();
+                    ctx.arc(centerX, centerY, outerRadius, currentAngle, currentAngle + sliceAngle);
+                    ctx.arc(centerX, centerY, innerRadius, currentAngle + sliceAngle, currentAngle, true);
+                    ctx.closePath();
+                    ctx.fillStyle = colors[index];
+                    ctx.fill();
+                    
+                    // Efecto de sombra
+                    ctx.shadowColor = 'rgba(0,0,0,0.1)';
+                    ctx.shadowBlur = 10;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                    
+                    currentAngle += sliceAngle;
+                }
+            });
+            
+            // Texto central
+            ctx.fillStyle = '#394A9A';
+            ctx.font = 'bold 28px Century Gothic';
+            ctx.textAlign = 'center';
+            ctx.fillText(total, centerX, centerY - 5);
+            ctx.font = '14px Century Gothic';
+            ctx.fillText('Total', centerX, centerY + 20);
+        }
+
+        function updateDashboardChart() {
+            const high = riskDatabase.filter(r => r.nivel === 'alto').length;
+            const medium = riskDatabase.filter(r => r.nivel === 'medio').length;
+            const low = riskDatabase.filter(r => r.nivel === 'bajo').length;
+            
+            drawDonutChart('dashChart', high, medium, low);
+        }
+
+        function updateAnalysisChart() {
+            const high = filteredRisks.filter(r => r.nivel === 'alto').length;
+            const medium = filteredRisks.filter(r => r.nivel === 'medio').length;
+            const low = filteredRisks.filter(r => r.nivel === 'bajo').length;
+            
+            drawDonutChart('analysisChart', high, medium, low);
+        }
+
+        // SISTEMA DE FILTROS AVANZADO
+        function applyFilters() {
+            const division = document.getElementById('divisionFilter').value;
+            const type = document.getElementById('typeFilter').value;
+            const level = document.getElementById('levelFilter').value;
+            const search = document.getElementById('searchFilter').value.toLowerCase();
+
+            activeFilters = { division, type, level, search };
+            
+            filteredRisks = riskDatabase.filter(risk => {
+                const matchesDivision = !division || risk.division === division;
+                const matchesType = !type || risk.tipo === type;
+                const matchesLevel = !level || risk.nivel === level;
+                const matchesSearch = !search || 
+                    risk.evento.toLowerCase().includes(search) ||
+                    risk.causa.toLowerCase().includes(search) ||
+                    risk.consecuencia.toLowerCase().includes(search) ||
+                    risk.procedimiento.toLowerCase().includes(search);
+                    
+                return matchesDivision && matchesType && matchesLevel && matchesSearch;
+            });
+
+            updateActiveFilters();
+            updateModuleStats();
+            updateAnalysisChart();
+            renderRiskGrid();
+        }
+
+        function updateActiveFilters() {
+            const container = document.getElementById('activeFilters');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            const filterLabels = {
+                division: '🏢',
+                type: '🎯', 
+                level: '⚠️',
+                search: '🔍'
+            };
+
+            Object.entries(activeFilters).forEach(([key, value]) => {
+                if (value) {
+                    const badge = document.createElement('div');
+                    badge.className = 'filter-badge';
+                    badge.innerHTML = `
+                        ${filterLabels[key]} ${value}
+                        <button class="filter-badge-remove" onclick="removeFilter('${key}')">✕</button>
+                    `;
+                    container.appendChild(badge);
+                }
+            });
+        }
+
+        function removeFilter(filterKey) {
+            const elementIds = {
+                division: 'divisionFilter',
+                type: 'typeFilter',
+                level: 'levelFilter',
+                search: 'searchFilter'
+            };
+            
+            document.getElementById(elementIds[filterKey]).value = '';
+            applyFilters();
+        }
+
+        function clearAllFilters() {
+            document.getElementById('divisionFilter').value = '';
+            document.getElementById('typeFilter').value = '';
+            document.getElementById('levelFilter').value = '';
+            document.getElementById('searchFilter').value = '';
+            applyFilters();
+        }
+
+        // MAPA DE CALOR DINÁMICO
+        function renderRiskGrid() {
+            const container = document.getElementById('riskGrid');
+            if (!container) return;
+            
+            if (filteredRisks.length === 0) {
+                container.innerHTML = `
+                    <div class="no-data">
+                        <div class="no-data-icon">📊</div>
+                        <h3>No se encontraron riesgos</h3>
+                        <p>Ajuste los filtros para ver resultados</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const sortedRisks = [...filteredRisks].sort((a, b) => {
+                const scoreA = a.probabilidad * a.magnitud;
+                const scoreB = b.probabilidad * b.magnitud;
+                return scoreB - scoreA;
+            });
+            
+            container.innerHTML = sortedRisks.map((risk, index) => `
+                <div class="risk-card ${risk.nivel}" style="animation-delay: ${index * 0.1}s;">
+                    <div class="risk-header">
+                        <div class="risk-level ${risk.nivel}">${risk.nivel.toUpperCase()}</div>
+                        <div class="risk-score">Score: ${risk.probabilidad * risk.magnitud}</div>
+                    </div>
+                    <div class="risk-content">
+                        <h4 class="risk-title">${risk.evento}</h4>
+                        <div class="risk-details">
+                            <div class="risk-detail">
+                                <span class="risk-icon">🏢</span>
+                                <span><strong>Procedimiento:</strong> ${risk.procedimiento}</span>
+                            </div>
+                            <div class="risk-detail">
+                                <span class="risk-icon">🎯</span>
+                                <span><strong>Tipo:</strong> ${risk.tipo.charAt(0).toUpperCase() + risk.tipo.slice(1)}</span>
+                            </div>
+                            <div class="risk-detail">
+                                <span class="risk-icon">⚠️</span>
+                                <span><strong>Causa:</strong> ${risk.causa}</span>
+                            </div>
+                            <div class="risk-detail">
+                                <span class="risk-icon">💥</span>
+                                <span><strong>Consecuencia:</strong> ${risk.consecuencia}</span>
+                            </div>
+                        </div>
+                        <div class="risk-metrics">
+                            <div class="metric">
+                                <div class="metric-value">${risk.probabilidad}</div>
+                                <div class="metric-label">Probabilidad</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-value">${risk.magnitud}</div>
+                                <div class="metric-label">Impacto</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-value">${risk.probabilidad * risk.magnitud}</div>
+                                <div class="metric-label">Riesgo</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // CONTROLES DE VISTA
+        function setView(viewType) {
+            currentView = viewType;
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.view === viewType);
+            });
+            renderRiskGrid();
+        }
+
+        // GENERACIÓN DE REPORTES AVANZADOS
+        function generateAdvancedReport(type) {
+            if (filteredRisks.length === 0) {
+                alert('⚠️ No hay datos para generar el reporte. Ajuste los filtros.');
+                return;
+            }
+
+            const stats = {
+                total: filteredRisks.length,
+                high: filteredRisks.filter(r => r.nivel === 'alto').length,
+                medium: filteredRisks.filter(r => r.nivel === 'medio').length,
+                low: filteredRisks.filter(r => r.nivel === 'bajo').length,
+                avgScore: (filteredRisks.reduce((sum, r) => sum + (r.probabilidad * r.magnitud), 0) / filteredRisks.length).toFixed(2),
+                date: new Date().toLocaleDateString('es-CR', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                })
+            };
+
+            let report = `📊 REPORTE ${type.toUpperCase()} - LABORATORIO DE RIESGOS CGR\n`;
+            report += `${'='.repeat(60)}\n\n`;
+            report += `📅 Fecha: ${stats.date}\n`;
+            report += `🏛️ Institución: Contraloría General de la República\n`;
+            report += `📋 Riesgos analizados: ${stats.total}\n\n`;
+            
+            report += `📈 RESUMEN EJECUTIVO:\n`;
+            report += `• Riesgos críticos: ${stats.high} (${((stats.high/stats.total)*100).toFixed(1)}%)\n`;
+            report += `• Riesgos moderados: ${stats.medium} (${((stats.medium/stats.total)*100).toFixed(1)}%)\n`;
+            report += `• Riesgos controlados: ${stats.low} (${((stats.low/stats.total)*100).toFixed(1)}%)\n`;
+            report += `• Score promedio: ${stats.avgScore}/9\n\n`;
+
+            if (type === 'trends') {
+                report += `📉 ANÁLISIS DE TENDENCIAS:\n`;
+                report += `• Riesgos que requieren atención inmediata: ${stats.high}\n`;
+                report += `• Distribución de riesgo más común: ${getMostCommonRiskType()}\n`;
+                report += `• División con mayor exposición: ${getMostRiskyDivision()}\n`;
+                report += `• Procedimiento más crítico: ${getMostCriticalProcedure()}\n\n`;
+            }
+
+            if (type === 'detailed') {
+                report += `📋 ANÁLISIS DETALLADO POR RIESGO:\n`;
+                filteredRisks.forEach((risk, index) => {
+                    report += `\n${index + 1}. ${risk.evento}\n`;
+                    report += `   • Nivel: ${risk.nivel.toUpperCase()}\n`;
+                    report += `   • Score: ${risk.probabilidad * risk.magnitud}\n`;
+                    report += `   • División: ${getDivisionName(risk.division)}\n`;
+                    report += `   • Causa: ${risk.causa}\n`;
+                });
+            }
+
+            report += `\n${'='.repeat(60)}\n`;
+            report += `🏛️ Contraloría General de la República - Costa Rica\n`;
+            report += `📧 Laboratorio de Riesgos - Versión 2.3\n`;
+
+            // Simular descarga del reporte
+            const blob = new Blob([report], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Reporte_${type}_${Date.now()}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            alert(`✅ Reporte ${type.toUpperCase()} generado exitosamente!\n\nArchivo descargado: Reporte_${type}_${Date.now()}.txt`);
+        }
+
+        // FUNCIONES AUXILIARES PARA REPORTES
+        function getMostCommonRiskType() {
+            const types = filteredRisks.reduce((acc, risk) => {
+                acc[risk.tipo] = (acc[risk.tipo] || 0) + 1;
+                return acc;
+            }, {});
+            
+            const mostCommon = Object.keys(types).reduce((a, b) => types[a] > types[b] ? a : b, '');
+            return mostCommon ? mostCommon.charAt(0).toUpperCase() + mostCommon.slice(1) : 'N/A';
+        }
+
+        function getMostRiskyDivision() {
+            const divisions = filteredRisks.reduce((acc, risk) => {
+                acc[risk.division] = (acc[risk.division] || 0) + (risk.probabilidad * risk.magnitud);
+                return acc;
+            }, {});
+            
+            const mostRisky = Object.keys(divisions).reduce((a, b) => divisions[a] > divisions[b] ? a : b, '');
+            return getDivisionName(mostRisky);
+        }
+
+        function getMostCriticalProcedure() {
+            const procedures = filteredRisks.reduce((acc, risk) => {
+                acc[risk.procedimiento] = (acc[risk.procedimiento] || 0) + (risk.probabilidad * risk.magnitud);
+                return acc;
+            }, {});
+            
+            return Object.keys(procedures).reduce((a, b) => procedures[a] > procedures[b] ? a : b, 'N/A');
+        }
+
+        function getDivisionName(code) {
+            const names = {
+                'dfoe': 'División de Fiscalización Operativa y Evaluativa',
+                'dcp': 'División de Contratación Pública',
+                'dga': 'División de Gestión de Apoyo',
+                'dj': 'División Jurídica'
+            };
+            return names[code] || code;
+        }
+
+        // CONSTRUCTOR DE RIESGOS CON IA
+        function generateRiskAnalysis(event) {
+            event.preventDefault();
+            
+            const evento = document.getElementById('eventoProblable').value;
+            const procedimiento = document.getElementById('tipoProcedimiento').value;
+            
+            if (!evento || !procedimiento) {
+                alert('⚠️ Por favor complete todos los campos obligatorios.');
+                return;
+            }
+
+            // Simular procesamiento de IA
+            const aiResults = document.getElementById('aiResults');
+            aiResults.innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">🤖</div>
+                    <p style="color: var(--primary-color); font-weight: bold;">Procesando con IA...</p>
+                    <div style="margin-top: 1rem;">
+                        <div style="width: 100%; height: 4px; background: var(--cgr-gray); border-radius: 2px; overflow: hidden;">
+                            <div style="width: 0%; height: 100%; background: var(--gradient-primary); animation: loadingBar 3s ease-in-out forwards;"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Simular análisis con IA
+            setTimeout(() => {
+                const analysis = performAIAnalysis(evento, procedimiento);
+                displayAIResults(analysis);
+            }, 3000);
+        }
+
+        function performAIAnalysis(evento, procedimiento) {
+            const keywords = evento.toLowerCase();
+            let analysis = {
+                eventoMejorado: evento,
+                tipoRiesgo: 'Operacionales',
+                riesgoEtico: 'No',
+                causas: ['Causa identificada por IA'],
+                consecuencias: ['Consecuencia analizada por IA'],
+                probabilidad: 2,
+                magnitud: 2,
+                controles: ['Control sugerido por IA'],
+                recomendaciones: ['Recomendación de mejora']
+            };
+
+            // Análisis inteligente basado en palabras clave
+            if (keywords.includes('ciberseguridad') || keywords.includes('ciberataque') || keywords.includes('hackeo')) {
+                analysis = {
+                    eventoMejorado: `Ciberataque dirigido a sistemas críticos de información institucional que compromete la integridad, disponibilidad y confidencialidad de datos sensibles`,
+                    tipoRiesgo: 'Información',
+                    riesgoEtico: 'Sí - Potencial acceso indebido a información confidencial',
+                    causas: [
+                        'Vulnerabilidades en sistemas de seguridad informática no parcheadas',
+                        'Falta de capacitación en ciberseguridad del personal',
+                        'Controles de acceso insuficientes a sistemas críticos',
+                        'Ausencia de monitoreo continuo de amenazas'
+                    ],
+                    consecuencias: [
+                        'Pérdida de información confidencial y sensible',
+                        'Interrupción de servicios críticos institucionales',
+                        'Daño severo a la reputación institucional',
+                        'Costos significativos de recuperación y remediación',
+                        'Posibles sanciones por incumplimiento normativo'
+                    ],
+                    probabilidad: 3,
+                    magnitud: 3,
+                    controles: [
+                        'Implementar monitoreo SOC 24/7',
+                        'Actualizar plan de continuidad de negocio',
+                        'Establecer programa de capacitación continua',
+                        'Implementar autenticación multifactor',
+                        'Realizar auditorías de seguridad periódicas'
+                    ],
+                    recomendaciones: [
+                        'Crear comité de ciberseguridad institucional',
+                        'Establecer protocolos de respuesta a incidentes',
+                        'Implementar backup automático y cifrado',
+                        'Desarrollar plan de comunicación de crisis'
+                    ]
+                };
+            } else if (keywords.includes('corrupción') || keywords.includes('fraude') || keywords.includes('conflicto')) {
+                analysis = {
+                    eventoMejorado: `Materialización de actos de corrupción o conflictos de interés en procesos institucionales críticos que comprometen la integridad y transparencia`,
+                    tipoRiesgo: 'Cumplimiento',
+                    riesgoEtico: 'Sí - Actos contrarios a la probidad y ética pública',
+                    causas: [
+                        'Controles internos insuficientes o ineficaces',
+                        'Falta de transparencia en procesos decisorios',
+                        'Ausencia de declaración de conflictos de interés',
+                        'Cultura organizacional débil en ética e integridad'
+                    ],
+                    consecuencias: [
+                        'Pérdida de confianza ciudadana e institucional',
+                        'Sanciones legales y administrativas severas',
+                        'Daño irreparable a la imagen institucional',
+                        'Pérdidas económicas directas e indirectas',
+                        'Intervención de organismos externos'
+                    ],
+                    probabilidad: 2,
+                    magnitud: 3,
+                    controles: [
+                        'Fortalecer el sistema de control interno',
+                        'Implementar declaración obligatoria de conflictos',
+                        'Establecer canales seguros de denuncia',
+                        'Crear programa de ética e integridad',
+                        'Realizar auditorías sorpresa regulares'
+                    ],
+                    recomendaciones: [
+                        'Desarrollar código de conducta específico',
+                        'Establecer comité de ética institucional',
+                        'Implementar sistema de seguimiento continuo',
+                        'Crear programa de incentivos por transparencia'
+                    ]
+                };
+            }
+
+            return analysis;
+        }
+
+        function displayAIResults(analysis) {
+            const container = document.getElementById('aiResults');
+            container.innerHTML = `
+                <div style="text-align: left;">
+                    <div style="margin-bottom: 1.5rem; padding: 1rem; background: var(--light-gray); border-radius: 8px;">
+                        <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">📝 Evento Mejorado por IA</h4>
+                        <p>${analysis.eventoMejorado}</p>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="padding: 1rem; background: var(--light-gray); border-radius: 8px;">
+                            <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">🎯 Tipo de Riesgo</h4>
+                            <p>${analysis.tipoRiesgo}</p>
+                        </div>
+                        <div style="padding: 1rem; background: var(--light-gray); border-radius: 8px;">
+                            <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">⚖️ Riesgo Ético</h4>
+                            <p>${analysis.riesgoEtico}</p>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem; padding: 1rem; background: var(--light-gray); border-radius: 8px;">
+                        <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">⚠️ Causas Identificadas</h4>
+                        <ul style="margin: 0; padding-left: 1.5rem;">
+                            ${analysis.causas.map(causa => `<li style="margin-bottom: 0.25rem;">${causa}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem; padding: 1rem; background: var(--light-gray); border-radius: 8px;">
+                        <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">💥 Consecuencias Potenciales</h4>
+                        <ul style="margin: 0; padding-left: 1.5rem;">
+                            ${analysis.consecuencias.map(cons => `<li style="margin-bottom: 0.25rem;">${cons}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="text-align: center; padding: 1rem; background: var(--light-gray); border-radius: 8px;">
+                            <div style="font-size: 2rem; font-weight: bold; color: var(--primary-color);">${analysis.probabilidad}</div>
+                            <div style="font-size: 0.8rem; color: var(--medium-gray);">PROBABILIDAD</div>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: var(--light-gray); border-radius: 8px;">
+                            <div style="font-size: 2rem; font-weight: bold; color: var(--primary-color);">${analysis.magnitud}</div>
+                            <div style="font-size: 0.8rem; color: var(--medium-gray);">IMPACTO</div>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: var(--light-gray); border-radius: 8px;">
+                            <div style="font-size: 2rem; font-weight: bold; color: var(--accent-color);">${analysis.probabilidad * analysis.magnitud}</div>
+                            <div style="font-size: 0.8rem; color: var(--medium-gray);">SCORE TOTAL</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem; padding: 1rem; background: var(--light-gray); border-radius: 8px;">
+                        <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">🛡️ Controles Sugeridos</h4>
+                        <ul style="margin: 0; padding-left: 1.5rem;">
+                            ${analysis.controles.map(control => `<li style="margin-bottom: 0.25rem;">${control}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem; padding: 1rem; background: var(--light-gray); border-radius: 8px;">
+                        <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">💡 Recomendaciones Adicionales</h4>
+                        <ul style="margin: 0; padding-left: 1.5rem;">
+                            ${analysis.recomendaciones.map(rec => `<li style="margin-bottom: 0.25rem;">${rec}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <button onclick="exportAIAnalysis()" class="report-btn">
+                            📄 Exportar Análisis Completo
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function exportAIAnalysis() {
+            alert('🎯 Funcionalidad de exportación implementada!\n\n✅ El análisis se exportaría en formato PDF con todos los detalles generados por la IA.');
+        }
+
+        // INICIALIZACIÓN DEL SISTEMA
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar datos
+            filteredRisks = [...riskDatabase];
+            
+            // Cargar dashboard inicial
+            updateDashboardStats();
+            updateDashboardChart();
+            
+            // Configurar event listeners adicionales
+            setupEventListeners();
+            
+            console.log('🚀 Laboratorio de Riesgos CGR v2.3 inicializado exitosamente');
+        });
+
+        function setupEventListeners() {
+            // Animaciones en elementos interactivos
+            document.querySelectorAll('.stat-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Interactividad en gráficos
+            const charts = document.querySelectorAll('.chart-canvas');
+            charts.forEach(chart => {
+                chart.addEventListener('click', function() {
+                    this.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 200);
+                });
+            });
+        }
+
+        // Estilos dinámicos para animaciones
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes loadingBar {
+                0% { width: 0%; }
+                50% { width: 70%; }
+                100% { width: 100%; }
+            }
+            
+            .pulse-animation {
+                animation: pulse 2s infinite;
+            }
+            
+            @keyframes pulse {
+                0%, 100% { transform: scale(1); opacity: 1; }
+                50% { transform: scale(1.05); opacity: 0.8; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio de Riesgos CGR v2.3</title>
+    <style>
+        :root {
+            --primary-color: #394A9A;
+            --secondary-color: #25336C;
+            --accent-color: #EA7305;
+            --success-color: #28a9e0;
+            --warning-color: #f8ae40;
+            --danger-color: #ef4444;
+            --light-gray: #f8fafc;
+            --medium-gray: #64748b;
+            --dark-gray: #1e293b;
+            --cgr-gray: #dbdbdd;
+            --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            --gradient-accent: linear-gradient(135deg, var(--accent-color), #ff6b35);
+            --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.15);
+            --shadow-heavy: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-gray);
+            background: var(--gradient-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem;
+            min-height: 100vh;
+        }
+
+        /* HEADER MEJORADO */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-medium);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-accent);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .cgr-logo {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'Century Gothic', sans-serif;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-light);
+        }
+
+        .header-info h1 {
+            font-family: 'Century Gothic', sans-serif;
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .header-info p {
+            color: var(--medium-gray);
+            font-size: 1rem;
+        }
+
+        .version-badge {
+            background: var(--gradient-accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: var(--shadow-light);
+        }
+
+        /* NAVEGACIÓN MEJORADA */
+        .main-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-button {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            font-family: 'Century Gothic', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-light);
+            min-width: 160px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .nav-button:hover::before,
+        .nav-button.active::before {
+            left: 0;
+        }
+
+        .nav-button:hover,
+        .nav-button.active {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        /* MÓDULOS MEJORADOS */
+        .module {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-medium);
+            animation: fadeIn 0.5s ease;
+            position: relative;
+        }
+
+        .module.active {
+            display: block;
+        }
+
+        .module-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--cgr-gray);
+        }
+
+        .module-header h2 {
+            font-family: 'Century Gothic', sans-serif;
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .module-icon {
+            font-size: 2.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        /* DASHBOARD DE ESTADÍSTICAS ANIMADO */
+        .dashboard-container {
+            display: grid;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-light);
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card.total::before { background: var(--gradient-primary); }
+        .stat-card.alto::before { background: var(--gradient-accent); }
+        .stat-card.medio::before { background: linear-gradient(135deg, var(--warning-color), #ffd93d); }
+        .stat-card.bajo::before { background: linear-gradient(135deg, var(--success-color), #6bcf7f); }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .stat-card:hover::before {
+            height: 8px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            font-family: 'Century Gothic', sans-serif;
+            margin-bottom: 0.5rem;
+            background: var(--gradient-primary);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: countUp 1s ease-out;
+        }
+
+        .stat-number.alto {
+            background: var(--gradient-accent);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            color: var(--medium-gray);
+            font-size: 1rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .stat-trend {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            opacity: 0.7;
+        }
+
+        /* GRÁFICO DE DONA INTERACTIVO */
+        .chart-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+
+        .chart-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .chart-title {
+            font-family: 'Century Gothic', sans-serif;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .chart-canvas {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .chart-canvas:hover {
+            transform: scale(1.05);
+        }
+
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            background: var(--light-gray);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .legend-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-light);
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            box-shadow: var(--shadow-light);
+        }
+
+        .legend-text {
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        /* SISTEMA DE FILTROS AVANZADO */
+        .filters-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            margin-bottom: 2rem;
+        }
+
+        .filters-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .filters-title {
+            font-family: 'Century Gothic', sans-serif;
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .clear-all-btn {
+            background: var(--gradient-accent);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .clear-all-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-light);
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-group {
+            position: relative;
+        }
+
+        .filter-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-family: 'Century Gothic', sans-serif;
+            font-weight: 600;
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        .filter-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--cgr-gray);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .filter-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(57, 74, 154, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .active-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .filter-badge {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        .filter-badge-remove {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 0.7rem;
+            padding: 0.2rem;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .filter-badge-remove:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* MAPA DE CALOR DINÁMICO */
+        .heatmap-section {
+            margin-bottom: 2rem;
+        }
+
+        .heatmap-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .heatmap-title {
+            font-family: 'Century Gothic', sans-serif;
+            color: var(--primary-color);
+            font-size: 1.3rem;
+        }
+
+        .view-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .view-btn {
+            background: white;
+            border: 2px solid var(--cgr-gray);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--medium-gray);
+        }
+
+        .view-btn.active {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .risk-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            position: relative;
+            animation: slideUp 0.5s ease;
+        }
+
+        .risk-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .risk-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+        }
+
+        .risk-card.alto::before {
+            background: var(--gradient-accent);
+        }
+
+        .risk-card.medio::before {
+            background: linear-gradient(90deg, var(--warning-color), #ffd93d);
+        }
+
+        .risk-card.bajo::before {
+            background: linear-gradient(90deg, var(--success-color), #6bcf7f);
+        }
+
+        .risk-header {
+            padding: 1.5rem 1.5rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .risk-level {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: white;
+            white-space: nowrap;
+        }
+
+        .risk-level.alto {
+            background: var(--gradient-accent);
+        }
+
+        .risk-level.medio {
+            background: linear-gradient(135deg, var(--warning-color), #ffd93d);
+        }
+
+        .risk-level.bajo {
+            background: linear-gradient(135deg, var(--success-color), #6bcf7f);
+        }
+
+        .risk-score {
+            background: var(--cgr-gray);
+            padding: 0.5rem 0.75rem;
+            border-radius: 12px;
+            font-weight: bold;
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        .risk-content {
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .risk-title {
+            font-family: 'Century Gothic', sans-serif;
+            color: var(--dark-gray);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .risk-details {
+            display: grid;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .risk-detail {
+            display: flex;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .risk-icon {
+            color: var(--primary-color);
+            font-size: 1rem;
+            margin-top: 0.1rem;
+            flex-shrink: 0;
+        }
+
+        .risk-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--cgr-gray);
+        }
+
+        .metric {
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            font-family: 'Century Gothic', sans-serif;
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            color: var(--medium-gray);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+
+        /* SECCIÓN DE REPORTES */
+        .reports-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            text-align: center;
+        }
+
+        .reports-title {
+            font-family: 'Century Gothic', sans-serif;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .report-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            font-family: 'Century Gothic', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-light);
+        }
+
+        .report-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .report-btn.accent {
+            background: var(--gradient-accent);
+        }
+
+        /* ANIMACIONES */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes countUp {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0.5rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .main-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-button {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .risk-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ESTADOS ESPECIALES */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--medium-gray);
+        }
+
+        .no-data-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER MEJORADO -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="cgr-logo">CGR</div>
+                    <div class="header-info">
+                        <h1>🔬 Laboratorio de Riesgos</h1>
+                        <p>Contraloría General de la República</p>
+                    </div>
+                </div>
+                <div class="version-badge">Versión 2.3</div>
+            </div>
+        </header>
+
+        <!-- NAVEGACIÓN MEJORADA -->
+        <nav class="main-nav">
+            <button class="nav-button active" onclick="showModule('inicio')" data-module="inicio">
+                🏠 Dashboard Principal
+            </button>
+            <button class="nav-button" onclick="showModule('modulo1')" data-module="modulo1">
+                📚 Guía Interactiva
+            </button>
+            <button class="nav-button" onclick="showModule('modulo2')" data-module="modulo2">
+                🌡️ Análisis de Riesgos
+            </button>
+            <button class="nav-button" onclick="showModule('modulo3')" data-module="modulo3">
+                🔨 Constructor IA
+            </button>
+        </nav>
+
+        <!-- MÓDULO PRINCIPAL: DASHBOARD -->
+        <div id="inicio" class="module active">
+            <div class="module-header">
+                <h2><span class="module-icon">📊</span>Dashboard de Gestión de Riesgos</h2>
+                <p>Análisis integral y monitoreo en tiempo real de la matriz de riesgos institucional</p>
+            </div>
+
+            <!-- DASHBOARD DE ESTADÍSTICAS ANIMADO -->
+            <div class="dashboard-container">
+                <div class="stats-grid">
+                    <div class="stat-card total">
+                        <div class="stat-trend">📈</div>
+                        <div class="stat-number" id="dashTotalRisks">0</div>
+                        <div class="stat-label">Total de Riesgos</div>
+                    </div>
+                    <div class="stat-card alto">
+                        <div class="stat-trend">🔥</div>
+                        <div class="stat-number alto" id="dashHighRisks">0</div>
+                        <div class="stat-label">Riesgos Críticos</div>
+                    </div>
+                    <div class="stat-card medio">
+                        <div class="stat-trend">⚠️</div>
+                        <div class="stat-number" id="dashMediumRisks">0</div>
+                        <div class="stat-label">Riesgos Moderados</div>
+                    </div>
+                    <div class="stat-card bajo">
+                        <div class="stat-trend">✅</div>
+                        <div class="stat-number" id="dashLowRisks">0</div>
+                        <div class="stat-label">Riesgos Controlados</div>
+                    </div>
+                </div>
+
+                <!-- GRÁFICO DE DONA INTERACTIVO -->
+                <div class="chart-section">
+                    <div class="chart-header">
+                        <h3 class="chart-title">📊 Distribución de Riesgos por Criticidad</h3>
+                        <p>Análisis visual de la composición actual de riesgos</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="dashChart" width="300" height="300" class="chart-canvas"></canvas>
+                    </div>
+                    <div class="chart-legend">
+                        <div class="legend-item" data-type="alto">
+                            <div class="legend-color" style="background: var(--gradient-accent);"></div>
+                            <span class="legend-text">Críticos</span>
+                        </div>
+                        <div class="legend-item" data-type="medio">
+                            <div class="legend-color" style="background: var(--warning-color);"></div>
+                            <span class="legend-text">Moderados</span>
+                        </div>
+                        <div class="legend-item" data-type="bajo">
+                            <div class="legend-color" style="background: var(--success-color);"></div>
+                            <span class="legend-text">Controlados</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MÉTRICAS ADICIONALES -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="dashDivisions">4</div>
+                        <div class="stat-label">Divisiones Monitoreadas</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="dashProcedures">28</div>
+                        <div class="stat-label">Procedimientos Evaluados</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="dashCoverage">95%</div>
+                        <div class="stat-label">Cobertura Institucional</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="dashRiskScore">7.2</div>
+                        <div class="stat-label">Score Promedio</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MÓDULO 1: GUÍA INTERACTIVA (Simplificada) -->
+        <div id="modulo1" class="module">
+            <div class="module-header">
+                <h2><span class="module-icon">📚</span>Guía Interactiva de Riesgos</h2>
+                <p>Conceptos fundamentales y marco regulatorio MOSEVRI</p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                <div style="background: white; padding: 2rem; border-radius: 16px; box-shadow: var(--shadow-light);">
+                    <h3 style="color: var(--primary-color); margin-bottom: 1rem;">🎯 ¿Qué es un Riesgo?</h3>
+                    <p>Probabilidad de que ocurran eventos que tendrían consecuencias sobre el cumplimiento de objetivos institucionales.</p>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: 16px; box-shadow: var(--shadow-light);">
+                    <h3 style="color: var(--primary-color); margin-bottom: 1rem;">📋 Marco MOSEVRI</h3>
+                    <p>Sistema Específico de Valoración del Riesgo Institucional que abarca ámbitos estratégicos, tácticos y operativos.</p>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: 16px; box-shadow: var(--shadow-light);">
+                    <h3 style="color: var(--primary-color);
